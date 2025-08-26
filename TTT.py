@@ -1,21 +1,19 @@
-from math import sqrt, floor
+from math import sqrt
 
 class ttt:
-    def __init__(self, board_size = 9):
+    def __init__(self, board_size = 3):
         # Assign board size and raise error if not perfect square
         self.board_size = board_size
-        self.board = [' '] * board_size
-        if sqrt(board_size) % 1 != 0.0:
-            raise ValueError("board_size must be a perfect square.")
-        if board_size == 1:
-            raise ValueError("board_size cannot be 1.")
+        self.num_squares = board_size * board_size 
+        self.board = [' '] * self.num_squares
+        assert sqrt(self.num_squares) == self.board_size
 
         # Player turn tracker
         self.player = 'X'
 
     def get_valid_moves(self):
         valid = []
-        for i in range(self.board_size):
+        for i in range(self.num_squares):
             if self.board[i] == ' ':
                 valid.append(i)
 
@@ -57,10 +55,10 @@ class ttt:
 
     def calculate_possible_wins(self):
         wins = []
-        squares_per_row = floor(sqrt(self.board_size))
+        squares_per_row = self.board_size
 
         # Horizontal wins 
-        for i in range(0, self.board_size, squares_per_row):
+        for i in range(0, self.num_squares, squares_per_row):
             win = []
             for j in range(squares_per_row):
                 win.append(i+j)
@@ -69,7 +67,7 @@ class ttt:
         # Vertical wins 
         for i in range(squares_per_row):
             win = []
-            for j in range(0, self.board_size, squares_per_row):
+            for j in range(0, self.num_squares, squares_per_row):
                 win.append(i+j)
             wins.append(tuple(win))
 
@@ -92,15 +90,15 @@ class ttt:
     
     def print_board(self):
         # Dynamically check how many squares are in each row 
-        squares_per_row = floor(sqrt(self.board_size))
+        squares_per_row = self.board_size
         
         # Print entire board
-        for i in range(self.board_size):
+        for i in range(self.num_squares):
             square_char = self.board[i]
             # It just works.
             if i % squares_per_row == squares_per_row - 1:
                 print(f" {square_char} ")
-                if i != self.board_size - 1:
+                if i != self.num_squares - 1:
                     print("----" * squares_per_row)
             else:
                 print(f" {square_char} |", end="")

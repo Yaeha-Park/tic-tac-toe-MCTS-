@@ -7,7 +7,7 @@ def main():
 
 def run_cli_human_game():
     # Game loop
-    BOARD_SIZE = 9
+    BOARD_SIZE = 3
     game = ttt(BOARD_SIZE)
     while (game.get_winner() == None):
         game.print_board()
@@ -18,7 +18,7 @@ def run_cli_human_game():
     game.print_board()
     result = game.get_winner()
     if result == "Draw":
-        print(result)
+        print("The game is a draw.")
     else:
         print(f"{game.get_winner()} is the winner!")
 
