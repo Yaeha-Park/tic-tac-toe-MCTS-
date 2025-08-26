@@ -12,17 +12,19 @@ class MCTSNode:
         self.value = 0
         self.valid = state.get_valid_moves()
 
+    # Check if new MCTS node needs to be created
     def full(self):
         return len(self.valid) == 0
     
+    # Makes new MCTS node
     def grow(self):
-        
         move = self.valid.pop()
         new = self.state.make_move(move)
         child = MCTSNode(new, parent = self, move = move)
         self.children.append(child)
         return child
     
+    # Calculates upper confidence bounds for trees, higher score has priority for node visit
     def winner(self, c_param = 1.41):
 
         choices = []
