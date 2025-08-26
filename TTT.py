@@ -17,9 +17,11 @@ class ttt:
 
     
     def make_move(self, move):
-        new = copy.deepcopy(self)
-        new.board[move] = self.player
-        new.player = 'O' if self.player == 'X' else 'X'
+        # Make move on board
+        self.board[move] = self.player 
+        # Switch player after move 
+        self.player = 'O' if self.player == 'X' else 'X'
+
 
     def get_winner(self):
         wins = [(0,1,2), (3,4,5), (6,7,8),
@@ -35,18 +37,16 @@ class ttt:
     def is_terminal(self):
         return self.get_winner() is not None
     
+    # TODO: make readable
     def print_board(self):
-        for i in range(3):
-            # Horizontal Rows
-            for j in range(3):
-                tile_char = self.board[i+j]
-                if j == 2:
-                    print(f" {tile_char} ", end="")
-                else:
-                    print(f" {tile_char} |", end ="")
-            # Divider lines 
-            if i < 2:
-                print('\n-----------')
+        for i in range(9):
+            tile_char = self.board[i]
+            if (i == 2 or i == 5 or i == 8) and i != 0:
+                print(f" {tile_char} ")
+                if i != 8:
+                    print("-----------")
+            else:
+                print(f" {tile_char} |", end="")
         print('\n', end='')
 
     
