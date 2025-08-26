@@ -11,9 +11,8 @@ class ttt:
         valid = []
         for i in range(9):
             if self.board[i] == ' ':
-                valid.append[i]
+                valid.append(i)
 
-        random.shuffle(valid)
         return valid
 
     
