@@ -21,7 +21,7 @@ class ttt:
         new.board[move] = self.player
         new.player = 'O' if self.player == 'X' else 'X'
 
-    def winner(self):
+    def get_winner(self):
         wins = [(0,1,2), (3,4,5), (6,7,8),
                 (0,3,6), (1,4,7), (2,5,8),
                 (0,4,8), (2,4,7)]
@@ -37,7 +37,16 @@ class ttt:
     
     def print_board(self):
         for i in range(3):
-            print(self.board[i*3:(i+1)*3])
-        print()
+            # Horizontal Rows
+            for j in range(3):
+                tile_char = self.board[i+j]
+                if j == 2:
+                    print(f" {tile_char} ", end="")
+                else:
+                    print(f" {tile_char} |", end ="")
+            # Divider lines 
+            if i < 2:
+                print('\n-----------')
+        print('\n', end='')
 
     
