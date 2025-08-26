@@ -1,15 +1,21 @@
-
-import copy
-import random
+from math import sqrt, floor
 
 class ttt:
-    def __init__(self):
-        self.board = [' '] * 9
+    def __init__(self, board_size = 9):
+        # Assign board size and raise error if not perfect square
+        self.board_size = board_size
+        self.board = [' '] * board_size
+        if sqrt(board_size) % 1 != 0.0:
+            raise ValueError("board_size must be a perfect square.")
+        if board_size == 1:
+            raise ValueError("board_size cannot be 1.")
+
+        # Player turn tracker
         self.player = 'X'
 
     def get_valid_moves(self):
         valid = []
-        for i in range(9):
+        for i in range(self.board_size):
             if self.board[i] == ' ':
                 valid.append(i)
 
@@ -24,29 +30,80 @@ class ttt:
 
 
     def get_winner(self):
-        wins = [(0,1,2), (3,4,5), (6,7,8),
-                (0,3,6), (1,4,7), (2,5,8),
-                (0,4,8), (2,4,7)]
-        for a, b, c in wins:
-            if self.board[a] == self.board[b] == self.board[c] != ' ':
-                return self.board[a]
-            if ' ' not in self.board:
-                return 'Draw'
+        # Get wins 
+        wins = self.calculate_possible_wins()
+
+        # Check win lines for winner
+        for win in wins:
+            last_seen = None
+            for pos in win:
+                if self.board[pos] == ' ':
+                    last_seen = None
+                    break
+                if last_seen == None: 
+                    last_seen = self.board[pos]
+                    continue
+                elif last_seen != self.board[pos]:
+                    last_seen = None 
+                    break
+            if last_seen != None:
+                return last_seen
+        
+        # If no empty spaces then game is draw
+        if ' ' not in self.board:
+            return 'Draw'
+
         return None
+
+    def calculate_possible_wins(self):
+        wins = []
+        squares_per_row = floor(sqrt(self.board_size))
+
+        # Horizontal wins 
+        for i in range(0, self.board_size, squares_per_row):
+            win = []
+            for j in range(squares_per_row):
+                win.append(i+j)
+            wins.append(tuple(win))
+        
+        # Vertical wins 
+        for i in range(squares_per_row):
+            win = []
+            for j in range(0, self.board_size, squares_per_row):
+                win.append(i+j)
+            wins.append(tuple(win))
+
+        # Diagonal wins
+        top_left_diag_win = []
+        for i in range(squares_per_row):
+            top_left_diag_win.append(i + (i*squares_per_row))
+        wins.append(tuple(top_left_diag_win))
+
+        top_right_diag_win = []
+        for i in range(squares_per_row):
+            top_right_diag_win.append((squares_per_row-1)*(i+1))
+        wins.append(tuple(top_right_diag_win))
+        
+        # Trust me bro.
+        return wins
     
     def is_terminal(self):
         return self.get_winner() is not None
     
-    # TODO: make readable
     def print_board(self):
-        for i in range(9):
-            tile_char = self.board[i]
-            if (i == 2 or i == 5 or i == 8) and i != 0:
-                print(f" {tile_char} ")
-                if i != 8:
-                    print("-----------")
+        # Dynamically check how many squares are in each row 
+        squares_per_row = floor(sqrt(self.board_size))
+        
+        # Print entire board
+        for i in range(self.board_size):
+            square_char = self.board[i]
+            # It just works.
+            if i % squares_per_row == squares_per_row - 1:
+                print(f" {square_char} ")
+                if i != self.board_size - 1:
+                    print("----" * squares_per_row)
             else:
-                print(f" {tile_char} |", end="")
+                print(f" {square_char} |", end="")
         print('\n', end='')
 
     

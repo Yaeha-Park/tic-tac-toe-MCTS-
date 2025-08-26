@@ -7,7 +7,8 @@ def main():
 
 def run_cli_human_game():
     # Game loop
-    game = ttt()
+    BOARD_SIZE = 9
+    game = ttt(BOARD_SIZE)
     while (game.get_winner() == None):
         game.print_board()
         inp = get_user_input(game.get_valid_moves(), game.player)
