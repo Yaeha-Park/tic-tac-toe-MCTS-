@@ -6,14 +6,26 @@ def main():
 
 def run_cli_human_game():
     game = ttt()
-    inp = get_user_input(game.get_valid_moves())
+    while (game.get_winner() == None):
+        game.print_board()
+        inp = get_user_input(game.get_valid_moves(), game.player)
+        game.make_move(inp)
 
-def get_user_input(valid_moves):
-    print(f"Please make a move. Valid moves: {valid_moves}")
+    game.print_board()
+    result = game.get_winner()
+    if result == "Draw":
+        print(result)
+    else:
+        print(f"{game.get_winner()} is the winner!")
+
+def get_user_input(valid_moves, turn):
+    print(f"{turn}'s move. Valid moves: {valid_moves}")
     while (True):
         try: 
             inp = input("> ")
-            if int(inp) not in valid_moves:
+            if inp == 'q':
+                return ""
+            elif int(inp) not in valid_moves:
                 print("Please enter a move from the valid move list.")
             else: 
                 break
