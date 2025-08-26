@@ -11,18 +11,19 @@ class ttt:
         valid = []
         for i in range(9):
             if self.board[i] == ' ':
-                valid.append[i]
+                valid.append(i)
 
-        random.shuffle(valid)
         return valid
 
     
     def make_move(self, move):
-        new = copy.deepcopy(self)
-        new.board[move] = self.player
-        new.player = 'O' if self.player == 'X' else 'X'
+        # Make move on board
+        self.board[move] = self.player 
+        # Switch player after move 
+        self.player = 'O' if self.player == 'X' else 'X'
 
-    def winner(self):
+
+    def get_winner(self):
         wins = [(0,1,2), (3,4,5), (6,7,8),
                 (0,3,6), (1,4,7), (2,5,8),
                 (0,4,8), (2,4,7)]
@@ -31,14 +32,21 @@ class ttt:
                 return self.board[a]
             if ' ' not in self.board:
                 return 'Draw'
-            return None
+        return None
     
     def is_terminal(self):
         return self.get_winner() is not None
     
+    # TODO: make readable
     def print_board(self):
-        for i in range(3):
-            print(self.board[i*3:(i+1)*3])
-        print()
+        for i in range(9):
+            tile_char = self.board[i]
+            if (i == 2 or i == 5 or i == 8) and i != 0:
+                print(f" {tile_char} ")
+                if i != 8:
+                    print("-----------")
+            else:
+                print(f" {tile_char} |", end="")
+        print('\n', end='')
 
     
