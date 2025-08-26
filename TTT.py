@@ -32,7 +32,7 @@ class ttt:
                 return self.board[a]
             if ' ' not in self.board:
                 return 'Draw'
-            return None
+        return None
     
     def is_terminal(self):
         return self.get_winner() is not None
