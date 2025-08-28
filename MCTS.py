@@ -42,3 +42,25 @@ class MCTSNode:
             choices.append(score)
 
         return self.children[choices.index(max(choices))]
+
+    def extend(self):
+        current = copy.deepcopy(self.state)
+        while current.get_winner() != None:
+            move = random.choice(current.get_valid_moves())
+            current = current.make_move(move)
+        winner = current.get_winner()
+
+        if winner == 'Draw':
+            return 0
+        elif winner == self.state.player:
+            return 1
+        else: 
+            return -1
+        
+    def backpropagate(self, result):
+        self.visits += 1
+        self.score += result
+        if self.parent != None:
+            self.parent.backpropagate(-result)
+    
+    
