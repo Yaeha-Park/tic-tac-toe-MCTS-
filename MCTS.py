@@ -25,7 +25,7 @@ class MCTSNode:
         return child
     
     # Calculates upper confidence bounds for trees, higher score has priority for node visit
-    def winner(self, c_param = 1.41):
+    def bestnode(self, c_param = 1.41):
 
         choices = []
 
@@ -62,5 +62,24 @@ class MCTSNode:
         self.score += result
         if self.parent != None:
             self.parent.backpropagate(-result)
+  
+    def runMCTS(rootstate, iterations = 1000):
+        root = MCTSNode(rootstate)
+
+        for in range(iterations):
+            node = root
+
+            while node.full() and node.children:
+                node = node.bestnode()
+
+            if not node.full():
+                node = node.grow()
+
+            result = node.extend()
+            node.backpropagate(result)
+
+        return max(root.children, key = lambda visit_count: children.visits).move
+
     
     
+
