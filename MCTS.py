@@ -62,7 +62,8 @@ class MCTSNode:
         self.score += result
         if self.parent != None:
             self.parent.backpropagate(-result)
-  
+    
+    # call this function to return best move 
     def runMCTS(rootstate, iterations = 1000):
         root = MCTSNode(rootstate)
 
@@ -81,5 +82,5 @@ class MCTSNode:
         return max(root.children, key = lambda visit_count: children.visits).move
 
     
-    
+
 
