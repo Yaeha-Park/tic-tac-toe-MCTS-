@@ -3,12 +3,33 @@ import sys
 from TTT import ttt
 
 def main():
-    run_cli_human_game()
+    game_menu()
 
-def run_cli_human_game():
+def game_menu():
+    while(True):
+        print("Choose a game mode:")
+        print("-------------------")
+        print("Mode \t\tKey")
+        print("Human opponent: 'h'")
+        print("MCTS opponent: \t'm'")
+        print("Quit: \t\t'q'")
+
+        inp = input("> ").lower()
+        if inp == 'h':
+            run_cli_human_game()
+            break
+        elif inp == 'm':
+            print("MCTS mode is currently not implemented, check again later.")
+            input("Press ENTER to continue\n")
+        elif inp == 'q':
+            break
+        else:
+            print("Option invalid. Please enter a valid key from the table.")
+            input("Press ENTER to continue\n")
+
+def run_cli_human_game(board_size = 3):
     # Game loop
-    BOARD_SIZE = 3
-    game = ttt(BOARD_SIZE)
+    game = ttt(board_size)
     while (game.get_winner() == None):
         game.print_board()
         inp = get_user_input(game.get_valid_moves(), game.player)
