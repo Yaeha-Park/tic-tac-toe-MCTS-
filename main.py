@@ -14,7 +14,7 @@ def game_menu():
         print("MCTS opponent: \t'm'")
         print("Quit: \t\t'q'")
 
-        inp = input("> ")
+        inp = input("> ").lower()
         if inp == 'h':
             run_cli_human_game()
             break
